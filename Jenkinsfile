@@ -1,53 +1,44 @@
 pipeline {
-    agent any
-    
-    environment{
-        REPO_URL="https://github.com/Maulopez23/CICD_Kakin.git"
+  agent any
+  environment {
+    DIGITALOCEAN_ACCESS_TOKEN=credentials('do-api-token')
+  }
+  stages {
+    stage('Install') {
+      steps {
+        sh 'doctl sls install'
+      }
     }
-    
-    stages 
-    {
-        stage('PRODUCTION') 
-        {
-            steps 
-            {
-                script 
-                {
-                    withCredentials([string(credentialsId: 'jenkinsGitHubToken', variable: 'GIT_TOKEN')]) 
-                    {
-                        try 
-                        {
-                            def desarrolloActions = 
-                            {
-                            sh 'git config --global credential.helper "!f() { echo username=Maulopez23; echo password=$GIT_TOKEN; }; f"'
-                            sh 'git checkout PRODUCTION'
-                            sh 'git fetch origin master:master'
-                            sh 'git merge master'
-                            sh 'git push origin PRODUCTION'
-                            // Reset the credential helper configuration after use
-                            sh 'git config --global --unset credential.helper'
-                            }
-                            desarrolloActions.call()
-
-                        def developmentTests = 
-                        {
-                            sh 'npm install'
-                           //sh 'firebase emulators:start --only firestore'
-                            //sh 'npm test'
-                            sh 'npm run build'
-                            // Ensure to stop the Firebase emulator
-                           // sh 'firebase emulators:stop'
-                          // Add this input step
-                        input(id: 'ProceedToQA', message: 'Approve proceeding to QA?', ok: 'Yes')
-                        }
-                        developmentTests.call()
-                        } catch (Exception e) {
-                            echo "Error in Desarrollo stage: ${e.message}"
-                            throw e
-                        }
-                    }
-                }
-            }
+    stage('Connect') {
+      steps {
+        sh 'doctl sls connect'
+      }
+    }
+    stage('Deploy') {
+      steps {
+        sh 'doctl sls deploy .'
+      }
+    }
+    stage('Get URL for hello') {
+      steps {
+        script {
+          def url = sh(script:'doctl sls fn get sample/hello --url',returnStdout:true).trim();
+          sh(script:"curl $url?name=Jenkins");
         }
+      }
     }
+    stage('Get URL for goodbye') {
+      steps {
+        script {
+          def url = sh(script:'doctl sls fn get sample/goodbye --url',returnStdout:true).trim();
+          sh(script:"curl $url?name=Jenkins");
+        }
+      }
+    }
+  }
+  post {
+    always {
+      sh 'doctl sls uninstall'
+    }
+  }
 }
