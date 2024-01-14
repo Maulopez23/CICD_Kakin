@@ -14,8 +14,8 @@ pipeline {
                             def desarrolloActions = {
                             sh 'git config --global credential.helper "!f() { echo username=Maulopez23; echo password=$GIT_TOKEN; }; f"'
                             sh 'git checkout desarrollo'
-                            sh 'git fetch origin master:master'
-                            sh 'git merge master'
+                            sh 'git fetch origin main:main'
+                            sh 'git merge main'
                             sh 'git push origin desarrollo'
                             // Reset the credential helper configuration after use
                             sh 'git config --global --unset credential.helper'
@@ -120,7 +120,7 @@ pipeline {
 
     post {
         always {
-            sh 'git checkout master'
+            sh 'git checkout main'
             
         }
     }
