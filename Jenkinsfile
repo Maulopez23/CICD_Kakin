@@ -2,9 +2,16 @@ pipeline {
     agent any
 
     environment {
-        DIGITALOCEAN_ACCESS_TOKEN=credentials('do-api-token')
-        //REPO_URL = "https://github.com/Maulopez23/CICD_Kakin.git"
+        //DIGITALOCEAN_ACCESS_TOKEN=credentials('do-api-token')
+        REPO_URL = "https://github.com/Maulopez23/CICD_Kakin.git"
     }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: REPO_URL, credentialsId: 'jenkinsGitHubToken']]])
+            }
+        }
 
     stages {
         stage('Desarrollo') {
