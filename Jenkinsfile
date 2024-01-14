@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL = "https://github.com/Maulopez23/CICD_Kakin.git"
+        DIGITALOCEAN_ACCESS_TOKEN=credentials('do-api-token')
+        //REPO_URL = "https://github.com/Maulopez23/CICD_Kakin.git"
     }
 
     stages {
@@ -60,7 +61,6 @@ pipeline {
                             def qaTests = {
                                 sh 'npx eslint'
                                 sh 'npx jest'
-                                // alguna mas??
                             }
                             qaTests.call()
                         } catch (Exception e) {
