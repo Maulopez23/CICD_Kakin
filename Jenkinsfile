@@ -7,13 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: 'https://github.com/Maulopez23/CICD_Kakin.git', credentialsId: 'jenkinsGitHubToken']]])
-            }
-        }
-
-    stages {
         stage('Desarrollo') {
             steps {
                 script {
