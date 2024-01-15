@@ -13,6 +13,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'jenkinsGitHubToken', variable: 'GIT_TOKEN')]) {
                         try {
                             def desarrolloActions = {
+                            sh 'git checkout main'
                             sh 'git config --global credential.helper "!f() { echo username=Maulopez23; echo password=$GIT_TOKEN; }; f"'
                             sh 'git checkout desarrollo'
                             sh 'git fetch origin main:main'
