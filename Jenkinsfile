@@ -2,10 +2,16 @@ pipeline {
     agent any
 
     environment {
-        //DIGITALOCEAN_ACCESS_TOKEN=credentials('do-api-token')
-        REPO_URL = "https://github.com/Maulopez23/CICD_Kakin.git"
+        DIGITALOCEAN_ACCESS_TOKEN=credentials('do-api-token')
     }
-
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/Maulopez23/CICD_Kakin.git'
+            }
+        }
+    
     stages {
         stage('Desarrollo') {
             steps {
@@ -101,24 +107,7 @@ pipeline {
                 }
             }
         }
-
-        stage('Deploy to DigitalOcean') {
-            when {
-                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
-            }
-            steps {
-                script {
-                    try {
-                        //deploy in digital ocean
-                    } catch (Exception e) {
-                        echo "Error in Deploy stage: ${e.message}"
-                        throw e
-                    }
-                }
-            }
-        }
-    }
-
+        
     post {
         always {
             sh 'git checkout main'
