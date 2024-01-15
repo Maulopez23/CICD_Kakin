@@ -6,13 +6,12 @@ pipeline {
         REPO_URL = "https://github.com/Maulopez23/CICD_Kakin.git"
     }
 
-    stages {
+     stages {
         stage('Checkout') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: REPO_URL, credentialsId: 'jenkinsGitHubToken']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: 'https://github.com/Maulopez23/CICD_Kakin.git', credentialsId: 'jenkinsGitHubToken']]])
             }
         }
-
     stages {
         stage('Desarrollo') {
             steps {
