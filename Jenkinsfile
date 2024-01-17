@@ -71,6 +71,11 @@ pipeline
                                 sh 'npm test'
                             }
                             qaTests.call()
+                            emailext subject: 'Desarrollo completado, listo para QA',
+                              body: 'El desarrollo ha sido completado y está listo para QA. Para proceder presione el botón en el pipeline.',
+                              to: 'maulopezgauto@gmail.com',
+                              mimeType: 'text/html'
+                        input(id: 'qaproceed', message: 'Quieres pasar a producción?', ok: 'Yes')
                         } catch (Exception e) {
                             echo "Error in QA stage: ${e.message}"
                             throw e
@@ -100,6 +105,11 @@ pipeline
                                 sh 'npm run test'
                             }
                             produccionTests.call()
+                            emailext subject: 'Desarrollo completado, listo para QA',
+                              body: 'El desarrollo ha sido completado y está listo para QA. Para proceder presione el botón en el pipeline.',
+                              to: 'maulopezgauto@gmail.com',
+                              mimeType: 'text/html'
+                        input(id: 'qaproceed', message: 'Quieres hacer deploy?', ok: 'Yes')
                         } catch (Exception e) {
                             echo "Ocurrió un error en producción: ${e.message}"
                             throw e
