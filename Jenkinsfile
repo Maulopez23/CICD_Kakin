@@ -38,7 +38,7 @@ pipeline
                             // Ensure to stop the Firebase emulator
                            // sh 'firebase emulators:stop'
                           // Add this input step
-                        input(id: 'ProceedToQA', message: 'Approve proceeding to QA?', ok: 'Yes')
+                        input(id: 'ProceedToQA', message: 'Quieres pasar a QA?', ok: 'Yes')
                         }
                         developmentTests.call()
                         } catch (Exception e) {
@@ -68,7 +68,7 @@ pipeline
 
                             def qaTests = {
                                 //sh 'npx eslint'
-                                //sh 'npx jest'
+                                sh 'npm test'
                             }
                             qaTests.call()
                         } catch (Exception e) {
@@ -102,7 +102,7 @@ pipeline
                             produccionTests.call()
                             //definir funcion y agregar comandos de prod (smoke test?)
                         } catch (Exception e) {
-                            echo "Error in Producción stage: ${e.message}"
+                            echo "Error en producción: ${e.message}"
                             throw e
                         }
                     }
