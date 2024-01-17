@@ -36,14 +36,12 @@ pipeline
                             sh 'npm run build || true'
 
                         input(id: 'ProceedToQA', message: 'Quieres pasar a QA?', ok: 'Yes')
-                        }
-                        developmentTests.call()
-
                         emailext subject: 'Desarrollo completado, listo para QA',
                               body: 'El desarrollo ha sido completado y está listo para QA. Para proceder presione el botón en el pipeline.',
                               to: 'maulopezgauto@gmail.com',
                               mimeType: 'text/html'
-
+                        }
+                        developmentTests.call()
                         } catch (Exception e) {
                             echo "Error in Desarrollo stage: ${e.message}"
                             throw e
