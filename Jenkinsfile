@@ -2,9 +2,7 @@ pipeline
 {
     agent any
     
-    environment {
-        DIGITALOCEAN_ACCESS_TOKEN=credentials('do-api-token')
-    }
+    tool{nodejs '21.6.0'}
     
     stages 
     {
