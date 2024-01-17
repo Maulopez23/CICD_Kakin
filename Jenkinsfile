@@ -97,7 +97,7 @@ pipeline
                             produccionActions.call()
 
                             def produccionTests = {
-                                //sh 'npm run test-file -- Login.test.js'
+                                sh 'npm run test'
                             }
                             produccionTests.call()
                             //definir funcion y agregar comandos de prod (smoke test?)
