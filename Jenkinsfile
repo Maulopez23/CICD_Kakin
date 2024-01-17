@@ -13,7 +13,7 @@ pipeline
                 }
             }
         }
-        stage('Desarrollo') 
+        stage('Development') 
         {
             steps {
                 script {
@@ -39,7 +39,7 @@ pipeline
                               body: 'El desarrollo ha sido completado y está listo para QA. Para proceder presione el botón en el pipeline.',
                               to: 'maulopezgauto@gmail.com',
                               mimeType: 'text/html'
-                        input(id: 'ProceedToQA', message: 'Quieres pasar a QA?', ok: 'Yes')
+                        input(id: 'qaproceed', message: 'Quieres pasar a QA?', ok: 'Yes')
                         }
                         developmentTests.call()
                         } catch (Exception e) {
@@ -80,7 +80,7 @@ pipeline
             }
         }
 
-        stage('Producción') 
+        stage('Production') 
         {
             steps {
                 script {
@@ -101,7 +101,7 @@ pipeline
                             }
                             produccionTests.call()
                         } catch (Exception e) {
-                            echo "Error en producción: ${e.message}"
+                            echo "Ocurrió un error en producción: ${e.message}"
                             throw e
                         }
                     }
