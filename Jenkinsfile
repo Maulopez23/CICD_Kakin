@@ -32,8 +32,8 @@ pipeline
                         def developmentTests = 
                         {
                             //sh 'export PATH=$PATH:/usr/local/bin/node'
-                            //sh 'npm install'
-                            //sh 'npm run build'
+                            sh 'npm install'
+                            sh 'npm run build'
 
                             // Ensure to stop the Firebase emulator
                            // sh 'firebase emulators:stop'
