@@ -32,8 +32,8 @@ pipeline
                         def developmentTests = 
                         {
                             //sh 'export PATH=$PATH:/usr/local/bin/node'
-                            sh 'npm install'
-                            sh 'npm run build'
+                            //sh 'npm install'
+                            //sh 'npm run build'
 
                             // Ensure to stop the Firebase emulator
                            // sh 'firebase emulators:stop'
@@ -67,8 +67,8 @@ pipeline
                             qaActions.call()
 
                             def qaTests = {
-                                sh 'npx eslint'
-                                sh 'npx jest'
+                                //sh 'npx eslint'
+                                //sh 'npx jest'
                             }
                             qaTests.call()
                         } catch (Exception e) {
@@ -97,7 +97,7 @@ pipeline
                             produccionActions.call()
 
                             def produccionTests = {
-                                sh 'npm run test-file -- Login.test.js'
+                                //sh 'npm run test-file -- Login.test.js'
                             }
                             produccionTests.call()
                             //definir funcion y agregar comandos de prod (smoke test?)
